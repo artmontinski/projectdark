@@ -1,16 +1,28 @@
 # ProjectDark README
-A practical tool that detects log statements using the pattern this.loggerService.(info|error|warn|debug) and dims them without making any modifications to the file.
+A tool that detects log statements using the pattern this.loggerService.(info|error|warn|debug) and dims them without making any modifications to the file.
 
 ## Features
 
-## No dependencies
+### - No dependencies
 
 ### v0.1
  - Toggle dimming of log statements with a single click - Default is 0.3/1
  - Activate by selecting 'ProjectDark: Toggle Log Dimming' from Command Pallete (Ctrl + Shift + P)
  - Extension lives in the status bar until deactivated by using the same command
- - Does not watch files, no resource usage while idle
+ - Does not watch files, no resources used while idle
 
+
+## Installation
+
+### From .vsix
+- Download the latest release and drop it into your VS Code workspace. Right-click and select "Install Extension .VSIX". You can then remove the file from workspace.
+
+### Build from source
+- git clone https://github.com/artmontinski/projectdark.git
+- npm install
+- npm install -g vsce
+- vsce package
+- A new .vsix file will appear in project root
 
 ## Extension Settings
 
