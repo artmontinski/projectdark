@@ -1,26 +1,60 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+let logDimmingEnabled = false;
+let statusBarItem: vscode.StatusBarItem;
+let decorationType: vscode.TextEditorDecorationType;
+
 export function activate(context: vscode.ExtensionContext) {
+    console.log('extension: ACTIVE!');
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "projectdark" is now active!');
+    decorationType = vscode.window.createTextEditorDecorationType({
+        opacity: '0.3',
+        color: 'rgba(150, 150, 150, 0.5)'
+    });
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('projectdark.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from ProjectDark!');
-	});
+    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+    statusBarItem.command = 'projectdark.toggleLogDimming';
+    context.subscriptions.push(statusBarItem);
 
-	context.subscriptions.push(disposable);
+    updateStatusBar();
+
+    let disposable = vscode.commands.registerCommand('projectdark.toggleLogDimming', toggleLogDimming);
+    context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
+function updateStatusBar() {
+    statusBarItem.text = logDimmingEnabled ? "$(eye-closed) Logs Dimmed" : "$(eye) Dim Logs";
+    statusBarItem.show();
+}
+
+function toggleLogDimming() {
+    logDimmingEnabled = !logDimmingEnabled;
+    updateStatusBar();
+
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+        if (logDimmingEnabled) {
+            applyLogDimming(editor);
+        } else {
+            editor.setDecorations(decorationType, []);
+        }
+    }
+}
+
+function applyLogDimming(editor: vscode.TextEditor) {
+    const document = editor.document;
+    const text = document.getText();
+    const logPattern = /this\.loggerService\.(info|error|warn|debug)\([\s\S]*?\);/g;
+
+    const ranges: vscode.Range[] = [];
+    let match;
+    while ((match = logPattern.exec(text))) {
+        const startPos = document.positionAt(match.index);
+        const endPos = document.positionAt(match.index + match[0].length);
+        ranges.push(new vscode.Range(startPos, endPos));
+    }
+
+    editor.setDecorations(decorationType, ranges);
+}
+
 export function deactivate() {}

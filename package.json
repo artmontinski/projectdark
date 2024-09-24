@@ -1,8 +1,9 @@
 {
   "name": "projectdark",
+  "author": "Anar Gasimov",
   "displayName": "ProjectDark",
-  "description": "ProjectMark Logger Dimmer",
-  "version": "0.0.1",
+  "description": "ProjectMark logger.service{} dimmer",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.93.0"
   },
@@ -14,14 +15,14 @@
   "contributes": {
     "commands": [
       {
-        "command": "projectdark.helloWorld",
-        "title": "Hello World"
+        "command": "projectdark.toggleLogDimming",
+        "title": "ProjectDark: Toggle Log Dimming"
       }
     ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
+    "compile": "rm -rf out && tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
@@ -29,13 +30,10 @@
   },
   "devDependencies": {
     "@types/vscode": "^1.93.0",
-    "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
     "@typescript-eslint/eslint-plugin": "^7.14.1",
     "@typescript-eslint/parser": "^7.11.0",
     "eslint": "^8.57.0",
-    "typescript": "^5.4.5",
-    "@vscode/test-cli": "^0.0.9",
-    "@vscode/test-electron": "^2.4.0"
+    "typescript": "^5.4.5"
   }
 }
