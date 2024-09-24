@@ -21,6 +21,7 @@ A tool that detects log statements using the pattern this.loggerService.(info|er
 - git clone https://github.com/artmontinski/projectdark.git
 - npm install
 - npm install -g vsce
+- npm  run compile
 - vsce package
 - A new .vsix file will appear in project root
 
