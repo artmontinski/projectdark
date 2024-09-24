@@ -3,8 +3,9 @@
   "author": "Anar Gasimov",
   "displayName": "ProjectDark",
   "description": "ProjectMark logger.service{} dimmer",
+  "icon": "static/pm_logo.png",
   "repository": "https://github.com/artmontinski/projectdark",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "engines": {
     "vscode": "^1.93.0"
   },
@@ -16,8 +17,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "projectdark.toggleLogDimming",
-        "title": "ProjectDark: Toggle Log Dimming"
+        "command": "projectdark.showHideStatusBar",
+        "title": "ProjectDark: Show/Hide Dimmer in Status Bar"
       }
     ]
   },

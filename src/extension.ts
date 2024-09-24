@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 let logDimmingEnabled = false;
 let statusBarItem: vscode.StatusBarItem;
 let decorationType: vscode.TextEditorDecorationType;
+let statusBarVisible = false;
 
 export function activate(context: vscode.ExtensionContext) {
     console.log('extension: ACTIVE!');
@@ -16,16 +17,17 @@ export function activate(context: vscode.ExtensionContext) {
     statusBarItem.command = 'projectdark.toggleLogDimming';
     context.subscriptions.push(statusBarItem);
 
-    updateStatusBar();
+    let disposableToggle = vscode.commands.registerCommand('projectdark.toggleLogDimming', toggleLogDimming);
+    let disposableShowHide = vscode.commands.registerCommand('projectdark.showHideStatusBar', showHideStatusBar);
 
-    let disposable = vscode.commands.registerCommand('projectdark.toggleLogDimming', toggleLogDimming);
-    context.subscriptions.push(disposable);
+    context.subscriptions.push(disposableToggle, disposableShowHide);
 }
 
 function updateStatusBar() {
     statusBarItem.text = logDimmingEnabled ? "$(eye-closed) Logs Dimmed" : "$(eye) Dim Logs";
     statusBarItem.show();
 }
+
 
 function toggleLogDimming() {
     logDimmingEnabled = !logDimmingEnabled;
@@ -38,6 +40,19 @@ function toggleLogDimming() {
         } else {
             editor.setDecorations(decorationType, []);
         }
+    }
+}
+
+function showHideStatusBar() {
+    const editor = vscode.window.activeTextEditor;
+    statusBarVisible = !statusBarVisible;
+    if (statusBarVisible) {
+        updateStatusBar();
+    } else {
+        if (editor) {
+            editor.setDecorations(decorationType, []);
+        }
+        statusBarItem.hide();
     }
 }
 
