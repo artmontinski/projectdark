@@ -3,6 +3,7 @@
   "author": "Anar Gasimov",
   "displayName": "ProjectDark",
   "description": "ProjectMark logger.service{} dimmer",
+  "repository": "https://github.com/artmontinski/projectdark",
   "version": "0.1.0",
   "engines": {
     "vscode": "^1.93.0"
